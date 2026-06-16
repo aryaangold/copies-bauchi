@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Architect Kabiru Baba Maaji — Campaign Media Deck</title>
+<style>
+  /* ---------- RESET & BASE ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fafafa;
+    color: #1d1d1f;
+    line-height: 1.5;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- ANIMATED BACKDROP (for liquid glass) ---------- */
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .backdrop::before,
+  .backdrop::after {
+    content: "";
+    position: absolute;
+    width: 60vmax;
+    height: 60vmax;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    animation: drift 28s ease-in-out infinite alternate;
+  }
+  .backdrop::before {
+    top: -20vmax;
+    left: -10vmax;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.08), transparent 70%);
+  }
+  .backdrop::after {
+    bottom: -25vmax;
+    right: -15vmax;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.12), transparent 70%);
+    animation-delay: -14s;
+  }
+  .blob {
+    position: fixed;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .blob.one { width: 35vmax; height: 35vmax; top: 30%; left: 60%; background: radial-gradient(circle, rgba(60,60,60,0.18), transparent 70%); animation: drift 22s ease-in-out infinite alternate; }
+  .blob.two { width: 28vmax; height: 28vmax; top: 70%; left: 10%; background: radial-gradient(circle, rgba(0,0,0,0.10), transparent 70%); animation: drift 30s ease-in-out infinite alternate-reverse; }
+
+  @keyframes drift {
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(8vw, -6vh) scale(1.1); }
+    100% { transform: translate(-6vw, 8vh) scale(0.95); }
+  }
+
+  /* ---------- NAVIGATION (liquid glass) ---------- */
+  nav.glass-nav {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 999px;
+    padding: 10px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    max-width: calc(100vw - 32px);
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  nav.glass-nav::-webkit-scrollbar { display: none; }
+  nav.glass-nav .brand {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 6px 12px;
+    color: #1d1d1f;
+    white-space: nowrap;
+    border-right: 1px solid rgba(0,0,0,0.08);
+    margin-right: 6px;
+  }
+  nav.glass-nav a {
+    color: #1d1d1f;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 999px;
+    transition: background 0.25s ease, color 0.25s ease;
+    white-space: nowrap;
+  }
+  nav.glass-nav a:hover { background: rgba(0,0,0,0.06); }
+
+  /* ---------- LAYOUT ---------- */
+  main { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 120px 0 80px; scroll-margin-top: 100px; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 140px 24px 80px;
+  }
+  .hero .eyebrow {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6e6e73;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.2s;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 7vw, 88px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    background: linear-gradient(180deg, #1d1d1f 0%, #5a5a5d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    animation: fadeUp 1.1s ease forwards 0.35s;
+  }
+  .hero h2 {
+    font-size: clamp(18px, 2.4vw, 28px);
+    font-weight: 400;
+    color: #424245;
+    max-width: 760px;
+    margin-bottom: 48px;
+    letter-spacing: -0.015em;
+    opacity: 0;
+    animation: fadeUp 1.1s ease forwards 0.5s;
+  }
+  .hero .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 1.1s ease forwards 0.65s;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 22px;
+    padding: 20px 28px;
+    min-width: 140px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+  .stat-card .num { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: #000; }
+  .stat-card .label { font-size: 12px; color: #6e6e73; font-weight: 500; margin-top: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .scroll-hint {
+    margin-top: 80px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: #86868b;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1.1s ease forwards 0.85s, bob 2.4s ease-in-out infinite 1.8s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-header { text-align: center; margin-bottom: 64px; }
+  .section-header .kicker {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6e6e73;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .section-header h2 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: #1d1d1f;
+  }
+  .section-header p {
+    font-size: 18px;
+    color: #6e6e73;
+    max-width: 640px;
+    margin: 0 auto;
+    font-weight: 400;
+  }
+
+  /* ---------- GLASS CARD ---------- */
+  .glass {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  }
+  .glass:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.9); }
+
+  /* ---------- PILLARS GRID ---------- */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .pillar {
+    padding: 32px;
+  }
+  .pillar .num {
+    font-size: 14px;
+    font-weight: 600;
+    color: #86868b;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .pillar h3 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    color: #1d1d1f;
+  }
+  .pillar p { color: #424245; font-size: 15px; }
+
+  /* ---------- QUOTE GRAPHICS GRID ---------- */
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .quote-card { padding: 36px; display: flex; flex-direction: column; }
+  .quote-card .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #86868b;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .quote-card .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 16px;
+  }
+  .quote-card blockquote {
+    font-size: 22px;
+    line-height: 1.35;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #000;
+    margin: 0 0 16px;
+    position: relative;
+    padding-left: 16px;
+    border-left: 2px solid #1d1d1f;
+  }
+  .quote-card .attribution {
+    font-size: 13px;
+    color: #6e6e73;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .quote-card .caption {
+    font-size: 14px;
+    color: #424245;
+    line-height: 1.55;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  /* ---------- INFOGRAPHICS ---------- */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .info-card { padding: 36px; }
+  .info-card .tag { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #86868b; text-transform: uppercase; margin-bottom: 16px; }
+  .info-card h3 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 20px;
+    color: #1d1d1f;
+  }
+  .info-card .visual-note {
+    font-size: 12px;
+    color: #86868b;
+    font-style: italic;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 12px;
+  }
+  .info-card ul { list-style: none; padding: 0; margin: 0 0 20px; }
+  .info-card ul li {
+    font-size: 14.5px;
+    color: #1d1d1f;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    line-height: 1.5;
+  }
+  .info-card ul li:last-child { border-bottom: none; }
+  .info-card .headline {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    font-style: italic;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    letter-spacing: -0.01em;
+  }
+  .info-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 13px;
+  }
+  .info-card table th, .info-card table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    vertical-align: top;
+  }
+  .info-card table th { font-weight: 600; color: #1d1d1f; background: rgba(0,0,0,0.03); }
+
+  /* ---------- VIDEOS ---------- */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .video-card { padding: 0; overflow: hidden; }
+  .video-card .preview {
+    background: linear-gradient(135deg, #1d1d1f 0%, #3a3a3c 100%);
+    color: #fff;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .video-card .preview::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+  }
+  .video-card .tag {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .video-card .title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .video-card .duration {
+    font-size: 13px;
+    opacity: 0.7;
+    position: relative;
+  }
+  .video-card .body { padding: 28px 32px; }
+  .video-card .body .label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #86868b; text-transform: uppercase; margin-bottom: 8px; }
+  .video-card .body p { font-size: 14.5px; color: #424245; line-height: 1.55; margin-bottom: 16px; }
+  .video-card .body .end-card {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: rgba(0,0,0,0.04);
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d1d1f;
+    letter-spacing: 0.02em;
+  }
+  .video-card .body ol { padding-left: 20px; font-size: 14px; color: #424245; line-height: 1.7; }
+
+  /* ---------- PICTURE CAPTIONS ---------- */
+  .pic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .pic-card { padding: 36px; }
+  .pic-card .tag { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #86868b; text-transform: uppercase; margin-bottom: 12px; }
+  .pic-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: #1d1d1f;
+  }
+  .pic-card .caption-text {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: #1d1d1f;
+    margin-bottom: 20px;
+  }
+  .pic-card .hashtags {
+    font-size: 13px;
+    color: #06c;
+    font-weight: 500;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  /* ---------- ROLLOUT TABLE ---------- */
+  .rollout-card { padding: 40px; }
+  .rollout-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+  }
+  .rollout-table th, .rollout-table td {
+    padding: 18px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    vertical-align: top;
+  }
+  .rollout-table th { font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #6e6e73; }
+  .rollout-table tr:hover td { background: rgba(0,0,0,0.02); }
+  .rollout-table .phase { font-weight: 600; color: #1d1d1f; white-space: nowrap; }
+  .rollout-table .theme { color: #1d1d1f; font-weight: 500; }
+  .rollout-table .assets { color: #6e6e73; font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 12.5px; }
+
+  /* ---------- VISUAL SYSTEM ---------- */
+  .system-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .system-card { padding: 32px; }
+  .system-card h4 { font-size: 13px; font-weight: 600; color: #86868b; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+  .swatch-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .swatch {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .swatch.green  { background: #1d4d3a; }
+  .swatch.gold   { background: #c9a857; }
+  .swatch.white  { background: #ffffff; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); }
+  .swatch.black  { background: #1d1d1f; }
+  .system-card p { font-size: 14px; color: #424245; line-height: 1.6; }
+  .system-card .hash { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 12.5px; color: #06c; word-spacing: 4px; line-height: 1.8; }
+
+  /* ---------- MESSAGING LIBRARY ---------- */
+  .library-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 768px) { .library-grid { grid-template-columns: 1fr; } }
+  .library-card { padding: 36px; }
+  .library-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: #1d1d1f;
+  }
+  .library-card ul { list-style: none; padding: 0; }
+  .library-card li {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 15px;
+    color: #1d1d1f;
+    line-height: 1.5;
+  }
+  .library-card li:last-child { border-bottom: none; }
+  .library-card.quotes li { font-style: italic; color: #1d1d1f; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 80px 24px 60px;
+    text-align: center;
+    color: #86868b;
+    font-size: 13px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    margin-top: 80px;
+  }
+  footer .lockup { font-weight: 600; color: #1d1d1f; font-size: 16px; letter-spacing: 0.1em; margin-bottom: 8px; }
+
+  /* ---------- REVEAL ANIMATION ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width: 640px) {
+    nav.glass-nav { top: 8px; padding: 8px 12px; }
+    nav.glass-nav .brand { font-size: 12px; padding: 4px 8px; }
+    nav.glass-nav a { font-size: 12px; padding: 5px 10px; }
+    section { padding: 80px 0 40px; }
+    .hero { padding: 120px 16px 60px; }
+    main { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BACKDROP -->
+<div class="backdrop"></div>
+<div class="blob one"></div>
+<div class="blob two"></div>
+
+<!-- NAVIGATION -->
+<nav class="glass-nav" aria-label="Primary">
+  <span class="brand">Maaji · Campaign Deck</span>
+  <a href="#overview">Overview</a>
+  <a href="#pillars">Pillars</a>
+  <a href="#quotes">Quote Graphics</a>
+  <a href="#infographics">Infographics</a>
+  <a href="#videos">Videos</a>
+  <a href="#pictures">Picture Captions</a>
+  <a href="#rollout">Rollout</a>
+  <a href="#system">Visual System</a>
+  <a href="#library">Library</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="overview">
+  <span class="eyebrow">Communications & Media Strategy</span>
+  <h1>Architect Kabiru<br/>Baba Maaji.</h1>
+  <h2>The Due Process Man — Bauchi's Architect of Discipline, Delivery and Development.</h2>
+  <div class="stats">
+    <div class="stat-card"><div class="num">40</div><div class="label">Campaign Assets</div></div>
+    <div class="stat-card"><div class="num">12</div><div class="label">Quote Graphics</div></div>
+    <div class="stat-card"><div class="num">8</div><div class="label">Infographics</div></div>
+    <div class="stat-card"><div class="num">12</div><div class="label">Videos</div></div>
+    <div class="stat-card"><div class="num">8</div><div class="label">Picture Captions</div></div>
+  </div>
+  <div class="scroll-hint">Scroll to Explore</div>
+</header>
+
+<main>
+
+<!-- PILLARS -->
+<section id="pillars">
+  <div class="section-header reveal">
+    <span class="kicker">Narrative</span>
+    <h2>Six Core Pillars.</h2>
+    <p>The strategic foundation behind every asset in this deck — distilled from the candidate's own voice.</p>
+  </div>
+  <div class="pillars">
+    <div class="pillar glass reveal"><div class="num">01</div><h3>Due Process</h3><p>The man who saved Bauchi billions through verifiable, lawful project oversight.</p></div>
+    <div class="pillar glass reveal"><div class="num">02</div><h3>Blueprint Leadership</h3><p>A 10-year master plan, expandable to a 30-year vision for the state.</p></div>
+    <div class="pillar glass reveal"><div class="num">03</div><h3>Education & Healthcare Emergency</h3><p>Non-negotiable priorities, beginning at the primary level.</p></div>
+    <div class="pillar glass reveal"><div class="num">04</div><h3>Security First</h3><p>No development is possible without a safe and stable environment.</p></div>
+    <div class="pillar glass reveal"><div class="num">05</div><h3>Integrity & Promise-Keeping</h3><p>A name protected through a lifetime of consistent delivery.</p></div>
+    <div class="pillar glass reveal"><div class="num">06</div><h3>All-Inclusive Government</h3><p>Even opponents get a seat at the table — because Bauchi is bigger than any one of us.</p></div>
+  </div>
+</section>
+
+<!-- QUOTE GRAPHICS -->
+<section id="quotes">
+  <div class="section-header reveal">
+    <span class="kicker">Section A · 30%</span>
+    <h2>Quote Graphics.</h2>
+    <p>Twelve portrait-style assets pairing a bold pull-quote with a campaign caption.</p>
+  </div>
+  <div class="grid-12">
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-01 · The Signature Line</span>
+      <blockquote>"If Kabir promises you something, just go and sleep — it will be done."</blockquote>
+      <div class="attribution">— Architect Kabiru Baba Maaji</div>
+      <p class="caption">A name you can bank on. A promise you can sleep on. Promises Made. Promises Kept.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-02 · The Due Process Brand</span>
+      <blockquote>"People call me 'Due Process' — because that is the office I built."</blockquote>
+      <p class="caption">Before he asks for your vote, look at his record. Bauchi's first Due Process Office was his idea.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-03 · Every Naira Counts</span>
+      <blockquote>"Every naira saved is another opportunity to develop our state."</blockquote>
+      <p class="caption">In four months under his watch, the Due Process Office saved Bauchi over four billion naira. Imagine what four years can do.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-04 · Education As Bedrock</span>
+      <blockquote>"Education is the bedrock of development."</blockquote>
+      <p class="caption">If we want to fight poverty in Bauchi, we must begin with the classroom. Education First. Future First.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-05 · State of Emergency</span>
+      <blockquote>"I will declare a state of emergency on education and healthcare. These two cannot wait."</blockquote>
+      <p class="caption">Bauchi's children and Bauchi's mothers deserve more than promises. A Greater Bauchi Starts Here.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-06 · Security Is Oxygen</span>
+      <blockquote>"Without security, without a clean environment, nothing thrives. Security is the air development breathes."</blockquote>
+      <p class="caption">First we secure the land. Then we build on it.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-07 · The Integrity Pledge</span>
+      <blockquote>"I have a name to protect and an integrity to preserve."</blockquote>
+      <p class="caption">The confidence the people of Bauchi have placed in me is a trust that will never be taken for granted. Built on Integrity. Driven by Service.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-08 · Leadership That Solves</span>
+      <blockquote>"Leadership is about solving problems, not making excuses."</blockquote>
+      <p class="caption">No tall tales. No empty manifestos. Just delivery. Experience. Competence. Results.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-09 · Son Of The Soil</span>
+      <blockquote>"I was born and raised in Bauchi. It is not a place I came to; it is a place I come from."</blockquote>
+      <p class="caption">A son of the soil. A servant of the people. From Bauchi. For Bauchi.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-10 · The First 90 Days</span>
+      <blockquote>"In the first three months, Bauchi will see direction — in security, in education and in healthcare. That is a promise."</blockquote>
+      <p class="caption">No honeymoon. Just work. Planning Today. Delivering Tomorrow.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-11 · All-Inclusive Government</span>
+      <blockquote>"Even my opponents have something to offer. We will bring them on board. Bauchi is bigger than any one of us."</blockquote>
+      <p class="caption">Politics ends on election day. Governance is for everyone. One Bauchi. One Vision.</p>
+    </article>
+
+    <article class="quote-card glass reveal">
+      <span class="tag">QG-12 · The Architect's Mindset</span>
+      <blockquote>"Any serious government must take off on a sound foundation. Build wrong, and you are bound to fail."</blockquote>
+      <p class="caption">An architect does not guess. He designs. Leadership Rooted in Experience.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- INFOGRAPHICS -->
+<section id="infographics">
+  <div class="section-header reveal">
+    <span class="kicker">Section B · 20%</span>
+    <h2>Infographics.</h2>
+    <p>Data-driven visuals designed for shareability and authority.</p>
+  </div>
+  <div class="info-grid">
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-01</span>
+      <h3>The Maaji Master Plan At A Glance</h3>
+      <div class="visual-note">Visual: Pyramid / roadmap graphic.</div>
+      <ul>
+        <li>10-Year Developmental Master Plan, expanding into a 30-Year Vision.</li>
+        <li>Pillar 1 — Education</li>
+        <li>Pillar 2 — Healthcare</li>
+        <li>Pillar 3 — Security</li>
+        <li>Pillar 4 — Infrastructure</li>
+      </ul>
+      <div class="headline">Bauchi's Future Has a Blueprint. And It Has an Architect.</div>
+    </article>
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-02</span>
+      <h3>Four Billion Naira. In Just Four Months.</h3>
+      <div class="visual-note">Visual: Naira stacks converting into schools, hospitals and roads.</div>
+      <ul>
+        <li>Over ₦4 billion saved by the Due Process Office under Maaji.</li>
+        <li>Roughly ₦1 billion per month of leakage stopped.</li>
+        <li>Real example: a project quoted at ₦10M was re-priced at ₦4M — ₦6M returned to the treasury.</li>
+      </ul>
+      <div class="headline">This Is What Due Process Looks Like. Protecting Public Resources. Delivering Public Value.</div>
+    </article>
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-03</span>
+      <h3>The First 3 Months: A Governance Snapshot</h3>
+      <div class="visual-note">Visual: Three-column timeline.</div>
+      <table>
+        <thead><tr><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr></thead>
+        <tbody><tr>
+          <td>Security Network Reassessment</td>
+          <td>Education Sector Audit with Stakeholders</td>
+          <td>Healthcare Facilities Review and Timelines</td>
+        </tr></tbody>
+      </table>
+      <div class="headline">By Day 90, You Will Feel the Difference.</div>
+    </article>
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-04</span>
+      <h3>Why Education? The Bauchi Reality</h3>
+      <div class="visual-note">Visual: Classrooms, desks and pupils.</div>
+      <ul>
+        <li>Alarming rate of secondary school dropouts.</li>
+        <li>Decaying educational infrastructure left unattended.</li>
+        <li>Primary-level neglect — "that is where we are actually missing it."</li>
+        <li>Maaji's fix: start at the bedrock — primary education.</li>
+      </ul>
+      <div class="headline">We Cannot Build Prosperity Without Quality Education.</div>
+    </article>
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-05</span>
+      <h3>Healthcare Emergency: The Maternal Crisis</h3>
+      <div class="visual-note">Visual: Mother-and-child graphic, hospital cross, stethoscope.</div>
+      <ul>
+        <li>Maternal mortality concerns flagged as "really touching."</li>
+        <li>Facilities decayed and under-resourced.</li>
+        <li>Maaji's response: a state of emergency on healthcare.</li>
+        <li>Healthcare is not an expense — it is an investment.</li>
+      </ul>
+      <div class="headline">A Healthy Population Is the Foundation of a Prosperous Economy.</div>
+    </article>
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-06</span>
+      <h3>Meet the Architect: Kabiru Baba Maaji's Record</h3>
+      <div class="visual-note">Visual: Timeline of public service.</div>
+      <ul>
+        <li>10+ years with the Bauchi State Government.</li>
+        <li>Bauchi State Development Board — fiscal infrastructure portfolio.</li>
+        <li>Special Adviser on Projects to the former Governor.</li>
+        <li>Founder, Budget Monitoring and Price Intelligence Unit.</li>
+        <li>Helped pioneer Bauchi's Procurement Law — one of the first in Nigeria.</li>
+      </ul>
+      <div class="headline">Not a Newcomer. A Nation-Builder.</div>
+    </article>
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-07</span>
+      <h3>What "Due Process" Actually Means For You</h3>
+      <div class="visual-note">Visual: Flowchart from project initiation to execution.</div>
+      <ul>
+        <li>1. Project initiated by the responsible MDA.</li>
+        <li>2. Forwarded to the Governor.</li>
+        <li>3. Passed to the Budget Monitoring and Price Intelligence Unit.</li>
+        <li>4. Verified for budgetary provision, prioritisation and public-interest value.</li>
+        <li>5. Re-priced to fair market value.</li>
+        <li>6. Awarded, executed and monitored.</li>
+      </ul>
+      <div class="headline">Every Naira Accounted For. Every Project Justified.</div>
+    </article>
+
+    <article class="info-card glass reveal">
+      <span class="tag">IG-08</span>
+      <h3>The Maaji Promise Index</h3>
+      <div class="visual-note">Visual: Five-shield row.</div>
+      <ul>
+        <li>1. Security First</li>
+        <li>2. Education Emergency</li>
+        <li>3. Healthcare Emergency</li>
+        <li>4. Infrastructure on Budget</li>
+        <li>5. All-Inclusive Government</li>
+      </ul>
+      <div class="headline">Five Promises. One Architect. Zero Excuses. Integrity. Inclusion. Impact.</div>
+    </article>
+
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-header reveal">
+    <span class="kicker">Section C · 30%</span>
+    <h2>Videos.</h2>
+    <p>A mix of 15-second reels, 30-second spots, 60-second explainers and 90-second mini-documentaries.</p>
+  </div>
+  <div class="video-grid">
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-01 · Reel</div>
+        <div class="title">The Sleep Promise</div>
+        <div class="duration">15 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Hook</div>
+        <p>"What do politicians sound like in Bauchi?"</p>
+        <div class="label">Maaji (verbatim)</div>
+        <p>"If Kabir promises you something, just go and sleep — it will be done."</p>
+        <div class="end-card">KABIR. THE NAME YOU CAN TRUST.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-02 · Explainer</div>
+        <div class="title">Four Billion in Four Months</div>
+        <div class="duration">30 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Voiceover with motion graphics</div>
+        <p>"Before Kabir Baba Maaji built the Due Process Office, billions slipped through Bauchi's fingers. In just four months, his unit saved the state over four billion naira. That is not politics. That is discipline."</p>
+        <div class="end-card">MULTIPLY THAT BY 48 MONTHS. VOTE KABIR.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-03 · Biography Spot</div>
+        <div class="title">Meet the Architect</div>
+        <div class="duration">60 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Structure</div>
+        <ol>
+          <li>0–10s — Born in Bauchi. Raised in Bauchi. Lives in Bauchi.</li>
+          <li>10–25s — Ten-plus years in government.</li>
+          <li>25–40s — Founder of the Due Process Office.</li>
+          <li>40–55s — Architect by training. Reformer by record.</li>
+          <li>55–60s — Lockup.</li>
+        </ol>
+        <div class="end-card">KABIR BABA MAAJI — BUILT FOR BAUCHI.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-04 · Spot</div>
+        <div class="title">The First 90 Days</div>
+        <div class="duration">30 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">On-screen countdown</div>
+        <p>90 → 60 → 30 → 0</p>
+        <div class="label">Voiceover (Maaji)</div>
+        <p>"Within the first three months, we will reassess security, education and healthcare. Bauchi will see direction."</p>
+        <div class="end-card">A GOVERNMENT THAT STARTS WORKING ON DAY 1.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-05 · Spot</div>
+        <div class="title">Why Education Is Personal</div>
+        <div class="duration">45 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Maaji to camera</div>
+        <p>"We were fortunate to have good education in our time. Somewhere, we lost it. I will not let another generation pay the price."</p>
+        <div class="label">B-roll</div>
+        <p>Classrooms, students, primary school children.</p>
+        <div class="end-card">EDUCATION FIRST. FUTURE FIRST.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-06 · Spot</div>
+        <div class="title">Healthcare Cannot Wait</div>
+        <div class="duration">45 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Hook</div>
+        <p>"How many more mothers must we lose?"</p>
+        <div class="label">Maaji</div>
+        <p>"The maternal issues we have are something that is really touching. I intend to apply a state of emergency on healthcare."</p>
+        <div class="end-card">A HEALTHY BAUCHI IS A WORKING BAUCHI.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-07 · Mini-Documentary</div>
+        <div class="title">The Due Process Story</div>
+        <div class="duration">90 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Beats</div>
+        <ol>
+          <li>Open with: "Where does the money go?"</li>
+          <li>Maaji explains the origin of the BMPIU.</li>
+          <li>The ₦10M → ₦4M re-pricing example.</li>
+          <li>Close: "People weren't happy with us. But somebody had to do the job."</li>
+        </ol>
+        <div class="end-card">NOW HE IS READY TO DO IT FOR ALL OF BAUCHI.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-08 · Reel</div>
+        <div class="title">The Architect's Mindset</div>
+        <div class="duration">20 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Text on screen (blueprint animation)</div>
+        <p>"An architect does not guess. He measures. He plans. He builds."</p>
+        <div class="label">Cut to Maaji</div>
+        <p>"Any serious government must take off on a sound foundation."</p>
+        <div class="end-card">BUILDING THE FUTURE TOGETHER.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-09 · Unity Spot</div>
+        <div class="title">All of Us, One Bauchi</div>
+        <div class="duration">30 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Maaji</div>
+        <p>"Even my opponents have something to offer. We will bring them on board. We must give them a role to play."</p>
+        <div class="label">Visual</div>
+        <p>Handshakes and diverse faces of Bauchi — youth, elders, women and traders.</p>
+        <div class="end-card">ONE BAUCHI. ONE VISION.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-10 · Spot</div>
+        <div class="title">Security Is the Foundation</div>
+        <div class="duration">30 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Open in low light, building to dawn over Bauchi skyline</div>
+        <div class="label">Voiceover (Maaji)</div>
+        <p>"Without security, without a clean environment, nothing thrives."</p>
+        <div class="end-card">SAFE STREETS. SAFE SCHOOLS. SAFE FUTURES.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-11 · Authority Piece</div>
+        <div class="title">Ask Me About My Record</div>
+        <div class="duration">60 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Maaji direct to camera</div>
+        <p>"Don't ask me what I will do. Ask me what I have done. Ten years in government. The Due Process Office. Four billion naira saved. A ten-year master plan in my hand. I am not learning on the job."</p>
+        <div class="end-card">EXPERIENCE YOU CAN VERIFY.</div>
+      </div>
+    </article>
+
+    <article class="video-card glass reveal">
+      <div class="preview">
+        <div class="tag">VID-12 · Closing Spot</div>
+        <div class="title">The Promise</div>
+        <div class="duration">30 seconds</div>
+      </div>
+      <div class="body">
+        <div class="label">Maaji speaking softly to camera</div>
+        <p>"I have a name to protect. I have an integrity to protect. The love and confidence of Bauchi people — I will not waste it."</p>
+        <div class="end-card">KABIR BABA MAAJI. THE NAME. THE PROMISE. THE PLAN.</div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- PICTURE CAPTIONS -->
+<section id="pictures">
+  <div class="section-header reveal">
+    <span class="kicker">Section D · 20%</span>
+    <h2>Picture Captions.</h2>
+    <p>Long-form captions designed to accompany already-captured photography. Each stands alone as a social post.</p>
+  </div>
+  <div class="pic-grid">
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-01</span>
+      <h3>Boardroom / Blueprint Photo</h3>
+      <p class="caption-text">Some leaders see politics as a position. Others see it as a responsibility. For Architect Kabiru Baba Maaji, leadership begins where service comes before self — and where every plan is drawn with the future of Bauchi in mind. The blueprint is ready. The hands are willing. A Greater Bauchi Starts Here.</p>
+      <div class="hashtags">#LeadershipThatWorks · #BlueprintForBauchi · #AGreaterBauchi</div>
+    </article>
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-02</span>
+      <h3>With The People (Market Scene)</h3>
+      <p class="caption-text">The best leaders understand the problems because they have lived among the people. Bauchi is not a destination for Architect Kabiru Baba Maaji; it is home. Its markets, its mosques, its mothers and its young men are not data points on a campaign brief — they are the everyday reasons he ran in the first place. From Bauchi. For Bauchi.</p>
+      <div class="hashtags">#SonOfTheSoil · #FromBauchiForBauchi · #OneOfUs</div>
+    </article>
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-03</span>
+      <h3>School Visit</h3>
+      <p class="caption-text">Every child sitting in a classroom today represents the future of our state. Investing in education is investing in generations yet unborn — in doctors not yet trained, in engineers not yet inspired and in leaders not yet discovered. Under Architect Kabiru Baba Maaji's administration, education will not be a line item. It will be a state of emergency.</p>
+      <div class="hashtags">#EducationFirst · #FutureFirst · #AGreaterBauchi</div>
+    </article>
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-04</span>
+      <h3>Hospital / Primary Healthcare Centre Visit</h3>
+      <p class="caption-text">A healthy population is the foundation of a prosperous economy. Healthcare is not an expense; it is an investment in every worker, every student and every mother who keeps Bauchi moving. No woman in our state should fear giving birth, and no family should lose a child to a preventable illness. That changes under our watch.</p>
+      <div class="hashtags">#HealthyBauchi · #HealthcareEmergency · #ResultsMatter</div>
+    </article>
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-05</span>
+      <h3>Construction / Project Site Photo</h3>
+      <p class="caption-text">When public resources are managed responsibly, communities benefit. Architect Kabiru Baba Maaji has spent his career making sure every naira built something real — a road that lasts, a school that stands, a hospital that heals. Accountability is not optional in his government. It is the standard.</p>
+      <div class="hashtags">#DueProcess · #ProtectingPublicResources · #PromisesKept</div>
+    </article>
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-06</span>
+      <h3>Quiet Portrait (The Statesman)</h3>
+      <p class="caption-text">Trust is earned through consistency. Integrity is proven through action. Leadership is validated through results. Architect Kabiru Baba Maaji carries a name he has spent a lifetime protecting — and he is asking Bauchi for the privilege of protecting it on a larger stage.</p>
+      <div class="hashtags">#TrustedLeadership · #IntegrityInclusionImpact · #LeadershipRootedInExperience</div>
+    </article>
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-07</span>
+      <h3>Town Hall / Stakeholder Engagement</h3>
+      <p class="caption-text">Development should not stop at the city centre. Every ward, every district, every community and every voice deserves to be part of the conversation that shapes Bauchi's future. Governance is not a monologue — it is a partnership. And in this administration, the partnership begins with listening.</p>
+      <div class="hashtags">#InclusiveLeadership · #EveryVoiceMatters · #OneBauchiOneVision</div>
+    </article>
+
+    <article class="pic-card glass reveal">
+      <span class="tag">PIC-08</span>
+      <h3>Hometown / Traditional Attire Photo</h3>
+      <p class="caption-text">Every generation is remembered for what it built. Let ours be remembered for progress, unity and development that reached the last household in the furthest local government. Born in Bauchi, raised in Bauchi and prepared for Bauchi, Architect Kabiru Baba Maaji is offering a new chapter — one written with courage, competence and commitment.</p>
+      <div class="hashtags">#BuildingTomorrow · #FutureForward · #ANewChapterForBauchi</div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ROLLOUT -->
+<section id="rollout">
+  <div class="section-header reveal">
+    <span class="kicker">Strategy</span>
+    <h2>Rollout Calendar.</h2>
+    <p>A seven-phase deployment plan from candidate introduction to closing-week promise.</p>
+  </div>
+  <div class="rollout-card glass reveal">
+    <table class="rollout-table">
+      <thead>
+        <tr><th>Phase</th><th>Theme</th><th>Lead Assets</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="phase">Week 1–2</td><td class="theme">Introduction — Meet the Architect</td><td class="assets">VID-03 · PIC-06 · IG-06 · QG-09</td></tr>
+        <tr><td class="phase">Week 3–4</td><td class="theme">Record & Authority — Due Process Man</td><td class="assets">VID-02 · VID-07 · IG-02 · IG-07 · QG-02 · QG-03</td></tr>
+        <tr><td class="phase">Week 5–6</td><td class="theme">Vision — The Blueprint</td><td class="assets">IG-01 · IG-08 · QG-12 · VID-08 · PIC-01</td></tr>
+        <tr><td class="phase">Week 7–8</td><td class="theme">Priorities — Emergency on Education and Health</td><td class="assets">QG-04 · QG-05 · IG-04 · IG-05 · VID-05 · VID-06 · PIC-03 · PIC-04</td></tr>
+        <tr><td class="phase">Week 9–10</td><td class="theme">Security & Foundation — First Things First</td><td class="assets">QG-06 · VID-10 · QG-10 · IG-03 · VID-04</td></tr>
+        <tr><td class="phase">Week 11</td><td class="theme">Unity — All of Us</td><td class="assets">QG-11 · VID-09 · PIC-07</td></tr>
+        <tr><td class="phase">Closing Week</td><td class="theme">The Promise — Go and Sleep</td><td class="assets">QG-01 · QG-07 · QG-08 · VID-01 · VID-11 · VID-12 · PIC-02 · PIC-08</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- VISUAL SYSTEM -->
+<section id="system">
+  <div class="section-header reveal">
+    <span class="kicker">Design</span>
+    <h2>Visual System.</h2>
+    <p>The aesthetic guardrails that keep every campaign asset consistent and unmistakably Maaji.</p>
+  </div>
+  <div class="system-grid">
+
+    <article class="system-card glass reveal">
+      <h4>Palette</h4>
+      <div class="swatch-row">
+        <div class="swatch green" title="Heritage Green #1d4d3a"></div>
+        <div class="swatch gold" title="Integrity Gold #c9a857"></div>
+        <div class="swatch white" title="Clarity White"></div>
+        <div class="swatch black" title="Statement Black"></div>
+      </div>
+      <p>Deep green for heritage. Gold for integrity. White for clarity. Black for authority.</p>
+    </article>
+
+    <article class="system-card glass reveal">
+      <h4>Typography</h4>
+      <p>Strong serif for quotes — to carry authority. Clean sans-serif for data — to carry modernity. Always tight letter-spacing for headlines.</p>
+    </article>
+
+    <article class="system-card glass reveal">
+      <h4>Lockup</h4>
+      <p>KABIRU BABA MAAJI — ARCHITECT — BAUCHI, supported by a star/compass motif that nods to architectural drafting.</p>
+    </article>
+
+    <article class="system-card glass reveal">
+      <h4>Hashtag Stack</h4>
+      <p class="hash">#KabirDelivers #DueProcessMan #AGreaterBauchi #BlueprintForBauchi #OneBauchiOneVision #PromisesKept</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- MESSAGING LIBRARY -->
+<section id="library">
+  <div class="section-header reveal">
+    <span class="kicker">Reference</span>
+    <h2>Approved Messaging Library.</h2>
+    <p>The full set of short power lines and pull quotes — reusable across speeches, captions and ad copy.</p>
+  </div>
+  <div class="library-grid">
+
+    <article class="library-card glass reveal">
+      <h3>Short Power Lines</h3>
+      <ul>
+        <li>A Greater Bauchi Starts Here.</li>
+        <li>From Bauchi. For Bauchi.</li>
+        <li>Built on Integrity. Driven by Service.</li>
+        <li>Planning Today. Delivering Tomorrow.</li>
+        <li>Promises Made. Promises Kept.</li>
+        <li>Protecting Public Resources. Delivering Public Value.</li>
+        <li>Integrity. Inclusion. Impact.</li>
+        <li>Experience. Competence. Results.</li>
+        <li>Leadership Rooted in Experience.</li>
+        <li>The People's Trust. The People's Future.</li>
+        <li>One Bauchi. One Vision.</li>
+        <li>A New Chapter for Bauchi.</li>
+        <li>Service Beyond Politics.</li>
+      </ul>
+    </article>
+
+    <article class="library-card quotes glass reveal">
+      <h3>Approved Pull Quotes</h3>
+      <ul>
+        <li>"I was born and raised in Bauchi. It is not a place I came to; it is a place I come from."</li>
+        <li>"Education is the bedrock of development."</li>
+        <li>"If we want to fight poverty, we must begin with education."</li>
+        <li>"I have a name to protect and an integrity to preserve."</li>
+        <li>"What we promise, we will deliver."</li>
+        <li>"Security, education and healthcare are the foundation of development."</li>
+        <li>"Public resources must serve the public."</li>
+        <li>"Every naira saved is another opportunity to develop our state."</li>
+        <li>"Leadership is about solving problems, not making excuses."</li>
+        <li>"The confidence of the people is a trust that must never be taken for granted."</li>
+        <li>"Together, we can build a Bauchi our children will be proud to inherit."</li>
+      </ul>
+    </article>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="lockup">KABIRU BABA MAAJI · ARCHITECT · BAUCHI</div>
+  <div>Prepared by Communications and Media Strategy — for internal campaign use.</div>
+</footer>
+
+<script>
+  // ---------- SCROLL REVEAL ----------
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ---------- ACTIVE NAV HIGHLIGHT ----------
+  const sections = document.querySelectorAll('section, header.hero');
+  const navLinks = document.querySelectorAll('nav.glass-nav a');
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => {
+          if (a.getAttribute('href') === '#' + id) {
+            a.style.background = 'rgba(0,0,0,0.08)';
+            a.style.color = '#000';
+          } else {
+            a.style.background = '';
+            a.style.color = '';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => spy.observe(s));
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0ca343b7b2cd1f7',t:'MTc4MTYxNjk5Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
